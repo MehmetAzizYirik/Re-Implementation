@@ -1,4 +1,4 @@
-package grouprepresentation;
+package reimplementation;
 
 /** Functions for the re-implementation of Faulon's paper have been developed.
  * 
