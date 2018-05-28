@@ -176,6 +176,27 @@ public class Functions {
 	    return atom2symindex;
 	}
 	
+	//This function is the original version of equivalence class classification considering also the implicit hydrogens
+	public static ListMultimap<String, Integer> atom2impclass(IAtomContainer acontainer) {
+		long[] sym= Functions.canonsym(acontainer);
+		ListMultimap<String, Integer> classs = ArrayListMultimap.create();
+		for(int i=0; i<acontainer.getAtomCount();i++){
+			classs.put(acontainer.getAtom(i).getSymbol()+acontainer.getAtom(i).getImplicitHydrogenCount(), Long.valueOf(sym[i]).intValue());
+		}
+		return classs;
+	}
+	
+	//This function is the identical graph checker comparing all the equivalence classes whether they are identical or not. If identical, then the graphs are isomorphic.
+	public static boolean identical_class (IAtomContainer ac1, IAtomContainer ac2){
+		boolean check =false;
+		ListMultimap<String, Integer> imp1= Functions.atom2impclass(ac1);
+        	ListMultimap<String, Integer> imp2= Functions.atom2impclass(ac2);
+		if(imp1.keys().containsAll(imp2.keys()) && imp2.keys().containsAll(imp1.keys()) && imp1.entries().containsAll(imp2.entries()) && imp2.entries().containsAll(imp1.entries()) ){
+	        	check=true;
+		}
+		return check;
+	}
+	
 	
 /**
 * These functions are for cleaning the interactions
